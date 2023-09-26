@@ -1,0 +1,4 @@
+lisinopril (Zestril): sacubitril
+levothyroxine (Synthroid): phenobarbital
+sacubitril (Entresto): lisinopril
+phenobarbital (Luminal): levothyroxine
