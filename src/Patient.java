@@ -10,8 +10,8 @@ public class Patient { //information populated from patients file, used in funct
         this.name = name;
         dateOfBirth = dob.substring(0,2) + dob.substring(3,5) + dob.substring(6);//mmddyyyy
         this.patientFileName = name + "_" + dateOfBirth + ".txt";
-        this.medications = new HashSet<>();
-        medications();
+        medications = new HashSet<>();
+        generateMedications();
     }
     public String getDOB(){
         return dateOfBirth;
@@ -26,11 +26,12 @@ public class Patient { //information populated from patients file, used in funct
         }
         return file;
     }
-    private void medications() throws IOException {
+    private void generateMedications() throws IOException {
         Scanner patientFile = new Scanner(this.getPatientFile());
         while (patientFile.hasNextLine()){
             String line = patientFile.nextLine();
             medications.add(line);
+            System.out.println("In patient medication added: " + line);
         }
     }
     public Set<String> getMedications(){

@@ -57,6 +57,7 @@ public class Main {
                 //Case 2
                 case 2:
                     //review method from the functions class
+                    patient.review();
                     break;
                 case 3://TODO: this has the same nextLine issue
                     System.out.println("What medication would you like to remove:");

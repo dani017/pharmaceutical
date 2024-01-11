@@ -57,7 +57,9 @@ public class Functions extends Patient{
                     warning.add(medication);
                 }
             }
-            if (warning.isEmpty()){
+            if (medications.contains(newMedication)){
+                System.out.println("You have already been prescribed this medication.");
+            }else if (warning.isEmpty()){
                 //add the medication to the end of the patients file
                 addMedication(newMedication, file);
             } else{
@@ -99,6 +101,7 @@ public class Functions extends Patient{
     //creates a file if one does not yet exist so file should always be an existing file
     //when this method is called
     private void addMedication(String newMedication, File file) throws IOException {
+        medications.add(newMedication);
         System.out.println("Adding " + newMedication + " to the patients file.");
         FileWriter fr = new FileWriter(file, true);
         BufferedWriter output = new BufferedWriter(fr);
@@ -110,18 +113,21 @@ public class Functions extends Patient{
     }
 
     //7/10/23: Preforms as expected for removing a medication from the patients file
+    //1/10/24: TODO BUG: remove is just moving the removed thing up a line
     public void remove(String medication) throws IOException {
-        if (!newPatient){
-            List<String> medications = new ArrayList<>();
+        if (!newPatient && medications.contains(medication)){
+            medications.remove(medication); //updates patient set of medications
+            //List<String> medications = new ArrayList<>();
             File file = new File(patientFileName);
-            Scanner patientFile = new Scanner(file);
+            //Scanner patientFile = new Scanner(file);
+            /*
             //copy all of the medications other than the one to be removed
             while (patientFile.hasNextLine()){
                 String currMed = patientFile.nextLine();
                 if (!currMed.equalsIgnoreCase(medication)){
                     medications.add(currMed);
                 }
-            }
+            }*/
             //clear the existing file
             FileWriter fw = new FileWriter(patientFileName, false);
             PrintWriter pw = new PrintWriter(fw, false);
@@ -138,10 +144,15 @@ public class Functions extends Patient{
         } //else do nothing
     }
 
-    public void review(){
-        review(patientFileName);
-    }
-    private void review(String patientFile){
-        //open the file or display contnets of the file
+    public void review() {
+        if (medications.isEmpty()){
+            System.out.println( name + " has no current prescribed medications.");
+        }
+        System.out.println("Here is a list of" + name + "'s medications: ");
+        System.out.println(super.getMedications().size());
+        for (String medication : medications){
+            //medication = medication.substring(0,1).toUpperCase() + medication.substring(1);
+            System.out.println("    - " + medication);
+        }
     }
 }
