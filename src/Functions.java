@@ -21,62 +21,10 @@ public class Functions extends Patient{
         //check if there is an existing file for the patient
         //if not then newPatient = true
     }
-    private void prescribe(String newMedication) throws IOException {
-        if (!Patient.medications.contains(newMedication)){
-            this.changed = true;
-            Patient.medications.add(newMedication);
-            File file = getPatientFile();
-            if (Patient.medications.size() > 1){
-                Scanner patientFile = new Scanner(file);
-                Scanner database = new Scanner(new File ("Medication Database.txt"));
-                //search through database for medication
-                //TODO: 1/5/2024 I legit do not remeber what this is doing so go through it thoroughly
-                Set<String> databaseMed = new HashSet<>();
-                String interactions = "";
-                //todo: update to consider case
-                while (database.hasNextLine()){
-                    String line = database.nextLine();
-                    int breakpt = line.indexOf(":");
-                    databaseMed.add(line.substring(0,breakpt));
-                    if (databaseMed.contains(newMedication)) {
-                        interactions = line.substring(breakpt);
-                        break;
-                    }
-                }
-                //maybe add an if for if there are interactions to crosscheck against?
-                //make a list of all the medications contained in interactions
-                List<String> warning = new ArrayList<>();
-                while (patientFile.hasNextLine()){
-                    String medication = patientFile.nextLine();
-                    if (interactions.contains(medication)){
-                        warning.add(medication);
-                    }
-                }
-                if (warning.isEmpty()){
-                    //add the medication to the end of the patients file
-                    addMedication(newMedication, file);
-                } else{
-                    System.out.println("It appears that " + newMedication + " is not recommended to be taken with: ");
-                    for (String medication : warning){
-                        System.out.println(medication);
-                    }
-                    System.out.println("Knowing that there is a risk involved with using " + newMedication +
-                            " with current medications would you still like to prescribe it?");
-                    System.out.println("(Y)es or (N)o");
-                    Scanner console = new Scanner(System.in);
-                    String choice = console.next();
-                    if (choice.equalsIgnoreCase("y")){
-                        addMedication(newMedication, file);
-                    }
-                    //bad interactions warning with a list of each bad/faulty medication
-                    //check if they would like to add medication anyway
-                }
-            }
-        }
-    }
+
     //in this method used file reading and writing techniques from UW CSE 12x series
     //7-10-23: works almost as expected, some issues if developer is on the file where things get added to the same line instead of next line
-    /*public void prescribe(String newMedication) throws IOException {
+    public void prescribe(String newMedication) throws IOException {
         File file = new File(patientFileName);
         //7-8-2023: new patient branch works as expected/anticipated
         if (file.createNewFile()) { //if the patient did not already have a file, creates one
@@ -141,7 +89,7 @@ public class Functions extends Patient{
             //if it does not conflict then add it to the end of the file
         }
 
-    }*/
+    }
 
     //add the medication to the end of the patients file
     //append to a file on 7-9-2023

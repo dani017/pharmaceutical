@@ -10,16 +10,18 @@ public class Main {
         Scanner console = new Scanner(System.in);
         System.out.println("Welcome to MediCheck!");
         String name = "" ;
-        while (valid(name) == false){
+        while (!valid(name)){
             System.out.println("Please list the patients first and last name:");
             //handle input
             name = console.nextLine(); //store patients first and last name
         }
 
         //consider form and captialization
-        String dateOfBirth = "11-11-1900";
+        //TODO: temp fix, consider if a do while works better
+        System.out.println("What is the patients DOB in the form mm/dd/yyyy:");//eventually make it so "/" are automatic
+        String dateOfBirth = console.nextLine();
         //boolean format = dobFormat(dateOfBirth);
-        while (dobFormat(dateOfBirth) == false){
+        while (!dobFormat(dateOfBirth)){
             System.out.println("What is the patients DOB in the form mm/dd/yyyy:");//eventually make it so "/" are automatic
             //finished TO-DO: figure out how to use name and DOB to access specific patient information: handled this in function by making name and dob part of the file name
             //potentially a file containing patients txt file where file name is patients first and last name followed by DOBz/
@@ -37,17 +39,15 @@ public class Main {
         System.out.println("Would you like to prescribe a new medication (1), review the patients existing medication(2), remove a medication(3), or exit the program (4)?");
         //eventually update to be button options on gui?
         int choice = console.nextInt();
-        String function; //del?
         String medication;
         Functions patient = new Functions(name, dateOfBirth);
         while (choice != 4) {
             switch (choice) {
                 //Case 1
                 case 1:
-                    function = "prescribe";
                     System.out.println("What medication would you like to perscribe:");
                     //handle input
-                    //TODO: fix bug with medication input
+                    //TODO: bug on the medication input, does not allow for more than a word of input
                     medication = console.next(); //.nextLine() for some reason would not accept input (help debug)
                     System.out.println("Thank you!");//+"I will now check this medication for any " +
                     //"potential conflicting interactions with current medications");
@@ -56,11 +56,9 @@ public class Main {
                     break;
                 //Case 2
                 case 2:
-                    function = "review";
                     //review method from the functions class
                     break;
                 case 3://TODO: this has the same nextLine issue
-                    function = "remove";
                     System.out.println("What medication would you like to remove:");
                     //handle input
                     medication = console.next();
@@ -76,7 +74,6 @@ public class Main {
         //old bugs (since fixed): currently allows years too far back or that have not yet happened, generally allows for dates that do not exist -- fixed
         //7-13-23 checks to ensure that dob is entered in the correct form and is a valid date.
         private static boolean dobFormat(String dob) {
-            boolean correct = true;
             if (dob.length() < 10 ){
                 return false;
             }
@@ -86,8 +83,8 @@ public class Main {
                 System.out.println("That is not the correct format.");
                 return false;
             }
-            correct = validDate(dob);
-            if (correct == false){
+            boolean correct = validDate(dob);
+            if (!correct){
                 System.out.println("That is not a valid date.");
             }
 
